@@ -25,11 +25,21 @@ function feed() {
     }
 }
 
+function timeToStr(time) {
+    var hour = time.getHours();
+    var min = time.getMinutes();
+    if (min < 10) { min = '0'+min; }
+    var sec = time.getSeconds();
+    if (sec < 10) { sec = '0'+sec; }
+    return hour +':'+min+':'+sec;
+}
+
 function start() {
     $('#timer').html('End');
     stat.feeding = true;
     stat.time = new Date();
-    $('#stat').html('Start '+stat.side+' @ '+ stat.time.toLocaleTimeString());
+    stat.start = timeToStr(stat.time);
+    $('#stat').html('Start '+stat.side+' @ '+ stat.start);
     log('Start @ '+stat.time.toLocaleTimeString());
     setTimeout('update()', 1000);
 }
@@ -43,7 +53,7 @@ function update() {
         last = min + ':0'+sec;
     }
 
-    $('#stat').html('Start '+stat.side+' @ '+ stat.time.toLocaleTimeString() + ' ['+last+']');
+    $('#stat').html('Start '+stat.side+' @ '+ stat.start + ' ['+last+']');
     if (stat.feeding) {
         setTimeout('update()', 1000);
     }
