@@ -2,17 +2,14 @@ h1= title
 
 h2 Feed
 div#stat
-  p Last feed @ 00:00:00
+  | Last feed @ 00:00:00
 div
-  button#BreastLeft(onclick='choose("left")') L
-  button#BreastRight(onclick='choose("right")') R
+  button#left(onclick='choose("left")') L
+  button#right(onclick='choose("right")') R
   div#side
 
-div
-  - if (feeding)
-    p Lasted 00:00:00
-    button#timer(onclick='feed()') End
-  - else
-    button#timer(onclick='feed()') Start
+div#timer
 
 h2 History
+div#history
+  button#history(onclick='history.load()') Load
