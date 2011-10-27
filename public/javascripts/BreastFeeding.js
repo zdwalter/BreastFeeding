@@ -83,7 +83,7 @@ function end() {
     stat.feeding = false;
 
     //TODO: push history
-    history.push({time: stat.time, last:stat.last});
+    history.push({time: stat.time, last:stat.last, side: stat.side});
 }
 
 var history = {};
@@ -105,9 +105,10 @@ history.show = function() {
     var data = history.data;
     for (var i = data.length-1; i >=0; i--) {
         var record = data[i];
-        var start = timeToStr(new Date(record.time));
+        var time = new Date(record.time);
+        var start = time.getFullYear()+'-'+time.getMonth()+'-'+time.getDay() +' '+ timeToStr(time);
         var last = secondToStr(record.last);
-        html += start + '['+last+']'+'<br/>';
+        html += record.side +'@' + start + '['+last+']'+'<br/>';
     }
     console.log(html);
     $('div#history').html(html);
