@@ -106,7 +106,7 @@ history.show = function() {
     for (var i = data.length-1; i >=0; i--) {
         var record = data[i];
         var time = new Date(record.time);
-        var start = time.getFullYear()+'-'+time.getMonth()+'-'+time.getDay() +' '+ timeToStr(time);
+        var start = time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDate() +' '+ timeToStr(time);
         var last = secondToStr(record.last);
         html += record.side +'@' + start + '['+last+']'+'<br/>';
     }
