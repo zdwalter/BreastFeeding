@@ -125,3 +125,8 @@ history.push = function(record) {
         console.log(msg);
     });
 };
+
+$(function() {
+    console.log('ready');
+    history.load();
+});
