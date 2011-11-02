@@ -115,7 +115,7 @@ history.show = function() {
         html += record.side +'@' + start + '['+last+']';
 
         if (stat.edit) { 
-            html += '<button>Edit</button>';
+            //html += '<button>Edit</button>';
         }
         html += '<br/>';
     }
@@ -331,9 +331,16 @@ history.push = function(record) {
 
 history.remove = function(i) {
     console.log('remove:'+JSON.stringify(history.data[i]));
-    history.data.splice(i,1);
-    //TODO: call server.history.remove();
+    var v = history.data.splice(i,1);
     history.show();
+    console.log(v);
+    $.ajax({
+        type: 'GET',
+        url: '/'+user+'/history/remove/'+v[0].time
+    }).done(function(msg) {
+        console.log(msg);
+    });
+
 };
 var edit = {};
 edit.start = function() {

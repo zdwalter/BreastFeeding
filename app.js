@@ -121,6 +121,27 @@ app.mongodb.insert = function(collectionName, data, callback) {
     }); 
 };
 
+app.mongodb.remove= function(collectionName, condition, callback) {
+    var mongo = app.mongodb.createClient();
+    return app.mongodb.collection(mongo, collectionName, function(err, collection) {
+        if (err) {
+            app.mongodb.releaseClient(mongo);
+            app.logger.error(err, app.logger.meta);
+            return callback(err, null);
+        }
+        return collection.remove(condition,
+            function(err, objects) {
+                app.mongodb.releaseClient(mongo);
+                if (err) {
+                    app.logger.error(err, app.logger.meta);
+                    return callback(err, null);
+                }
+                return callback(null, null);
+            });
+    }); 
+};
+
+
 app.mongodb.loadAll = function(collectionName, callback) {
     var mongo = app.mongodb.createClient();
     return app.mongodb.collection(mongo, collectionName, function(err, collection) {
@@ -179,10 +200,10 @@ app.post('/:user/history', function(req, res) {
 });
 
 app.get('/:user/history/remove/:time', function(req, res) {
-    var data = JSON.parse(req.body.data);
     var user = req.params.user;
-    console.log(user+':'+JSON.stringify(data));
-    return app.mongodb.insert(user, data, function(err) {
+    var time = req.params.time;
+    console.log(user+' remove '+time);
+    return app.mongodb.remove(user, {time:time}, function(err) {
         return app.response(res, err); 
     });
 });
