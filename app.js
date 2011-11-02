@@ -178,5 +178,15 @@ app.post('/:user/history', function(req, res) {
     });
 });
 
+app.get('/:user/history/remove/:time', function(req, res) {
+    var data = JSON.parse(req.body.data);
+    var user = req.params.user;
+    console.log(user+':'+JSON.stringify(data));
+    return app.mongodb.insert(user, data, function(err) {
+        return app.response(res, err); 
+    });
+});
+
+
 app.listen(80);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
